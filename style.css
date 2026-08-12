@@ -241,3 +241,49 @@ img {
     font-size: 2rem;
   }
 }
+
+.about__inner {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+
+.about__photo {
+  flex: 0 0 260px;
+  display: flex;
+  justify-content: center;
+}
+
+.about__photo img {
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 6px solid var(--bg-alt);
+  box-shadow: var(--shadow);
+}
+
+.about__content {
+  flex: 1;
+}
+
+.about__content p {
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.section-title--left {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .about__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .section-title--left {
+    text-align: center;
+  }
+}
