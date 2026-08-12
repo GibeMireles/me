@@ -471,9 +471,9 @@ img {
 .pcard__logo {
   position: absolute;
   left: 20px;
-  bottom: -28px;
-  width: 56px;
-  height: 56px;
+  bottom: -34px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   border: 3px solid #FFFFFF;
   box-shadow: var(--shadow);
@@ -482,7 +482,7 @@ img {
 }
 
 .pcard__body {
-  padding: 40px 24px 24px;
+  padding: 48px 24px 24px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -656,25 +656,39 @@ img {
   }
 
   .pcard__body {
-    padding: 40px 20px 20px;
+    padding: 46px 20px 20px;
   }
 
   .pcard__body h3 {
     font-size: 1.05rem;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .pcard__desc {
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    -webkit-line-clamp: 3;
   }
 
   .pcard__case {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
 
   .pcard__stack {
-    gap: 10px;
-    row-gap: 12px;
+    gap: 8px;
+    row-gap: 8px;
+    max-height: 56px;
+    overflow: hidden;
+  }
+
+  .pcard__badge {
+    padding: 3px 10px 3px 3px;
+    font-size: 0.72rem;
+  }
+
+  .pcard__badge-dot {
+    width: 16px;
+    height: 16px;
+    font-size: 0.58rem;
   }
 
   .proyectos-cta {
