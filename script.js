@@ -31,8 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const projectsTrack = document.querySelector('.projects-track');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
 
-  if (projectsTrack && !reduceMotion) {
+  if (projectsTrack && !reduceMotion && !isSmallScreen) {
     let paused = false;
     let resumeTimeout = null;
 
