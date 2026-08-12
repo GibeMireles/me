@@ -1,0 +1,124 @@
+:root {
+  --bg: #FFFFFF;
+  --bg-alt: #F8FAFC;
+  --text: #1E293B;
+  --heading: #0F172A;
+  --muted: #64748B;
+  --accent: #14B8A6;
+  --accent-dark: #0F9488;
+  --card-bg: #FFFFFF;
+  --card-border: #E2E8F0;
+  --radius: 12px;
+  --shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+
+  --font-primary: 'Montserrat', sans-serif;
+  --font-secondary: 'Open Sans', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-secondary);
+  color: var(--text);
+  background-color: var(--bg);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-primary);
+  color: var(--heading);
+  line-height: 1.25;
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.section {
+  padding: 96px 0;
+}
+
+.section--alt {
+  background-color: var(--bg-alt);
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.section-subtitle {
+  font-family: var(--font-secondary);
+  color: var(--muted);
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 48px auto;
+  font-size: 1.05rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn--primary {
+  background-color: var(--accent);
+  color: #FFFFFF;
+  border: 2px solid var(--accent);
+}
+
+.btn--primary:hover {
+  background-color: var(--accent-dark);
+  border-color: var(--accent-dark);
+  transform: translateY(-2px);
+}
+
+.btn--outline {
+  background-color: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+.btn--outline:hover {
+  background-color: var(--accent);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.badge {
+  display: inline-block;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 50px;
+}
