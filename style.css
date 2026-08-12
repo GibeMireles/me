@@ -330,36 +330,68 @@ img {
 }
 
 .projects-carousel {
-  overflow: hidden;
+  position: relative;
   width: 100%;
-  padding: 0 24px;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
 .projects-track {
   display: flex;
   gap: 28px;
-  width: max-content;
-  animation: projects-scroll 40s linear infinite;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0 24px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
-.projects-carousel:hover .projects-track {
-  animation-play-state: paused;
+.projects-track::-webkit-scrollbar {
+  display: none;
 }
 
-@keyframes projects-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+.carousel {
+  position: relative;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .projects-track {
-    animation: none;
+.carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--accent-dark);
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.carousel__arrow:hover {
+  background-color: var(--accent);
+  color: #FFFFFF;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.carousel__arrow--prev {
+  left: 4px;
+}
+
+.carousel__arrow--next {
+  right: 4px;
+}
+
+@media (max-width: 768px) {
+  .carousel__arrow {
+    display: none;
   }
 }
 

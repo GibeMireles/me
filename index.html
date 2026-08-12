@@ -57,23 +57,27 @@
     <div class="container">
         <h2 class="section-title">Servicios</h2>
         <p class="section-subtitle">Soluciones técnicas de punta a punta, del proceso comercial a la visualización de datos.</p>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>Implementación de CRM</h3>
-                <p>Diseño y configuración de Kommo CRM adaptado a tu proceso comercial: pipelines, automatizaciones, bots de WhatsApp y capacitación al equipo.</p>
+        <div class="carousel">
+            <button type="button" class="carousel__arrow carousel__arrow--prev" data-carousel-prev aria-label="Servicios anteriores">&#8249;</button>
+            <div class="services-grid" data-carousel-track>
+                <div class="service-card">
+                    <h3>Implementación de CRM</h3>
+                    <p>Diseño y configuración de Kommo CRM adaptado a tu proceso comercial: pipelines, automatizaciones, bots de WhatsApp y capacitación al equipo.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Dashboards de datos</h3>
+                    <p>Desarrollo de tableros en Looker Studio conectados a tus fuentes reales — CRM, Meta Ads, PMS hotelero, Google Sheets — para tomar decisiones con información actualizada.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Automatización con IA</h3>
+                    <p>Agentes de WhatsApp, flujos automáticos de atención y calificación de leads, integración de herramientas con IA (Claude, GPT) para reducir trabajo manual.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Integración de sistemas</h3>
+                    <p>Conexión entre plataformas: CRM + sitio web, PMS + dashboard, Meta Ads + base de datos. Arquitecturas limpias con Python, Supabase y APIs.</p>
+                </div>
             </div>
-            <div class="service-card">
-                <h3>Dashboards de datos</h3>
-                <p>Desarrollo de tableros en Looker Studio conectados a tus fuentes reales — CRM, Meta Ads, PMS hotelero, Google Sheets — para tomar decisiones con información actualizada.</p>
-            </div>
-            <div class="service-card">
-                <h3>Automatización con IA</h3>
-                <p>Agentes de WhatsApp, flujos automáticos de atención y calificación de leads, integración de herramientas con IA (Claude, GPT) para reducir trabajo manual.</p>
-            </div>
-            <div class="service-card">
-                <h3>Integración de sistemas</h3>
-                <p>Conexión entre plataformas: CRM + sitio web, PMS + dashboard, Meta Ads + base de datos. Arquitecturas limpias con Python, Supabase y APIs.</p>
-            </div>
+            <button type="button" class="carousel__arrow carousel__arrow--next" data-carousel-next aria-label="Siguientes servicios">&#8250;</button>
         </div>
     </div>
 </section>
@@ -84,7 +88,8 @@
         <p class="section-subtitle">Trabajo real con empresas de hospedaje, eventos, retail y educación.</p>
     </div>
     <div class="projects-carousel">
-        <div class="projects-track">
+        <button type="button" class="carousel__arrow carousel__arrow--prev" data-carousel-prev aria-label="Proyectos anteriores">&#8249;</button>
+        <div class="projects-track" data-carousel-track>
             <div class="project-card">
                 <div class="project-card__logo-row">
                     <img class="project-card__logo-circle" src="assets/rinconada.png" alt="Rinconada">
@@ -250,6 +255,7 @@
                 </div>
             </div>
         </div>
+        <button type="button" class="carousel__arrow carousel__arrow--next" data-carousel-next aria-label="Siguientes proyectos">&#8250;</button>
     </div>
 </section>
 
