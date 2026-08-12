@@ -200,3 +200,44 @@ img {
     gap: 16px;
   }
 }
+
+.hero {
+  background: linear-gradient(135deg, var(--heading) 0%, #1E293B 100%);
+  padding: 140px 0 100px 0;
+  text-align: center;
+}
+
+.hero__inner {
+  max-width: 760px;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  color: #FFFFFF;
+  font-size: 2.75rem;
+  margin-bottom: 24px;
+}
+
+.hero__value {
+  color: #CBD5E1;
+  font-size: 1.15rem;
+  margin-bottom: 36px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 120px 0 72px 0;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+}
