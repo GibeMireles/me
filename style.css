@@ -594,20 +594,34 @@ img {
   font-size: 0.78rem;
 }
 
-.education-list {
+.timeline {
   list-style: none;
+  margin-left: 6px;
+  padding-left: 26px;
+  border-left: 2px solid var(--card-border);
 }
 
-.education-list li {
+.timeline__item {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 28px;
 }
 
-.education-list li:last-child {
-  border-bottom: none;
+.timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline__dot {
+  position: absolute;
+  left: -32px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--bg-tint);
 }
 
 .education-list__title {
