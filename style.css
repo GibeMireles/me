@@ -378,6 +378,9 @@ img {
   font-weight: 700;
   color: var(--accent-dark);
   margin-bottom: 10px;
+  min-height: 3rem;
+  display: flex;
+  align-items: flex-start;
 }
 
 .project-card__client {
@@ -385,29 +388,24 @@ img {
   align-items: center;
   gap: 10px;
   margin-bottom: 16px;
-  flex-wrap: wrap;
+  min-height: 52px;
 }
 
 .project-card__logo {
-  height: 32px;
-  width: auto;
-  max-width: 100px;
+  width: 120px;
+  height: 52px;
   object-fit: contain;
   background-color: #FFFFFF;
   border: 1px solid var(--card-border);
   border-radius: 6px;
-  padding: 4px 8px;
+  padding: 6px 10px;
+  box-sizing: border-box;
 }
 
 .project-card__logos {
   display: flex;
-  gap: 6px;
-}
-
-.project-card__logos .project-card__logo {
-  height: 26px;
-  max-width: 70px;
-  padding: 3px 6px;
+  align-items: center;
+  gap: 8px;
 }
 
 .project-card__avatar {
