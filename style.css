@@ -1,6 +1,7 @@
 :root {
   --bg: #FFFFFF;
   --bg-alt: #F8FAFC;
+  --bg-tint: #EAF7F5;
   --text: #1E293B;
   --heading: #0F172A;
   --muted: #64748B;
@@ -60,6 +61,10 @@ img {
 
 .section--alt {
   background-color: var(--bg-alt);
+}
+
+.section--tint {
+  background-color: var(--bg-tint);
 }
 
 .section-title {
@@ -415,11 +420,18 @@ img {
 .project-card {
   flex: 0 0 340px;
   background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
+  border: 1.5px solid rgba(20, 184, 166, 0.25);
   border-radius: var(--radius);
   padding: 28px;
-  box-shadow: var(--shadow);
+  box-shadow: none;
   text-align: left;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
 }
 
 .project-card h3 {
@@ -529,7 +541,7 @@ img {
 }
 
 .cert-chip {
-  background-color: var(--bg-alt);
+  background-color: #FFFFFF;
   border: 1px solid var(--card-border);
   border-radius: 10px;
   padding: 14px 16px;
