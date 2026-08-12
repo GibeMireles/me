@@ -468,7 +468,36 @@ img {
 .project-card p {
   color: var(--muted);
   font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.project-card__desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-card__desc.is-expanded {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.project-card__toggle {
+  display: inline-block;
+  background: none;
+  border: none;
+  padding: 0;
   margin-bottom: 18px;
+  color: var(--accent-dark);
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.project-card__toggle:hover {
+  text-decoration: underline;
 }
 
 .project-card__stack {

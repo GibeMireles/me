@@ -95,4 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sections.forEach((section) => observer.observe(section));
   }
+
+  document.querySelectorAll('[data-toggle-desc]').forEach((button) => {
+    const desc = button.previousElementSibling;
+    if (!desc) return;
+
+    button.addEventListener('click', () => {
+      const expanded = desc.classList.toggle('is-expanded');
+      button.textContent = expanded ? 'Leer menos' : 'Leer más';
+      button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
+  });
 });
