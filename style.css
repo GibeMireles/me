@@ -383,38 +383,31 @@ img {
   align-items: flex-start;
 }
 
-.project-card__client {
+.project-card__logo-row {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-  min-height: 70px;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
-.project-card__logo {
-  height: 56px;
-  width: auto;
-  max-width: 220px;
-  background-color: #FFFFFF;
-  border: 1px solid var(--card-border);
-  border-radius: 6px;
-  padding: 6px 10px;
+.project-card__logo-circle {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--card-border);
+  box-shadow: var(--shadow);
 }
 
-.project-card__logos {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.project-card__logos .project-card__logo {
-  height: 40px;
+.project-card__logo-row:has(.project-card__logo-circle + .project-card__logo-circle) .project-card__logo-circle {
+  width: 72px;
+  height: 72px;
 }
 
 .project-card__avatar {
-  flex: 0 0 32px;
-  width: 32px;
-  height: 32px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -422,7 +415,7 @@ img {
   color: #FFFFFF;
   font-family: var(--font-primary);
   font-weight: 700;
-  font-size: 0.75rem;
+  font-size: 1.5rem;
 }
 
 .project-card__avatar.avatar-blue { background-color: #0EA5E9; }
@@ -431,12 +424,6 @@ img {
 .project-card__avatar.avatar-pink { background-color: #EC4899; }
 .project-card__avatar.avatar-emerald { background-color: #10B981; }
 .project-card__avatar.avatar-orange { background-color: #F97316; }
-
-.project-card__client-name {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--muted);
-}
 
 .project-card p {
   color: var(--muted);
