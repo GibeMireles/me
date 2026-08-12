@@ -507,13 +507,47 @@ img {
 
 .education {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: minmax(260px, 320px) 1fr;
   gap: 48px;
+}
+
+@media (max-width: 768px) {
+  .education {
+    grid-template-columns: 1fr;
+  }
 }
 
 .education-block h3 {
   font-size: 1.15rem;
   margin-bottom: 20px;
+}
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.cert-chip {
+  background-color: var(--bg-alt);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cert-chip__title {
+  font-weight: 600;
+  color: var(--heading);
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.cert-chip__meta {
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 .education-list {
