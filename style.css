@@ -481,21 +481,6 @@ img {
   background-color: #FFFFFF;
 }
 
-.pcard__logo-group {
-  position: absolute;
-  left: 20px;
-  bottom: -28px;
-  display: flex;
-}
-
-.pcard__logo-group .pcard__logo {
-  position: static;
-}
-
-.pcard__logo-group .pcard__logo + .pcard__logo {
-  margin-left: -16px;
-}
-
 .pcard__body {
   padding: 40px 24px 24px;
   display: flex;
@@ -663,7 +648,45 @@ img {
 
 @media (max-width: 700px) {
   .pcard {
-    flex: 0 0 85%;
+    flex: 0 0 88%;
+  }
+
+  .pcard__media {
+    height: 170px;
+  }
+
+  .pcard__body {
+    padding: 40px 20px 20px;
+  }
+
+  .pcard__body h3 {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+
+  .pcard__desc {
+    margin-bottom: 10px;
+  }
+
+  .pcard__case {
+    margin-bottom: 20px;
+  }
+
+  .pcard__stack {
+    gap: 10px;
+    row-gap: 12px;
+  }
+
+  .proyectos-cta {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 16px;
+  }
+
+  .proyectos-cta .btn {
+    width: 100%;
+    text-align: center;
   }
 }
 
