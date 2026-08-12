@@ -329,13 +329,42 @@ img {
   font-size: 0.98rem;
 }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+.projects-carousel {
+  overflow: hidden;
+  width: 100%;
+  padding: 0 24px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.projects-track {
+  display: flex;
   gap: 28px;
+  width: max-content;
+  animation: projects-scroll 40s linear infinite;
+}
+
+.projects-carousel:hover .projects-track {
+  animation-play-state: paused;
+}
+
+@keyframes projects-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-track {
+    animation: none;
+  }
 }
 
 .project-card {
+  flex: 0 0 340px;
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
