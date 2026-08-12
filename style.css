@@ -289,12 +289,17 @@ img {
 }
 
 .services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  display: flex;
   gap: 28px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x mandatory;
 }
 
 .service-card {
+  flex: 1 1 250px;
+  min-width: 250px;
+  scroll-snap-align: start;
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
