@@ -547,27 +547,13 @@ img {
 .pcard__badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   background-color: var(--bg-alt);
   border: 1px solid var(--card-border);
   border-radius: 50px;
-  padding: 4px 12px 4px 4px;
+  padding: 5px 12px;
   font-size: 0.76rem;
   font-weight: 600;
   color: var(--text);
-}
-
-.pcard__badge-dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFFFFF;
-  font-size: 0.62rem;
-  font-weight: 700;
-  flex-shrink: 0;
 }
 
 .pcarousel__dots {
@@ -676,19 +662,13 @@ img {
   .pcard__stack {
     gap: 8px;
     row-gap: 8px;
-    max-height: 56px;
+    max-height: 52px;
     overflow: hidden;
   }
 
   .pcard__badge {
-    padding: 3px 10px 3px 3px;
+    padding: 4px 10px;
     font-size: 0.72rem;
-  }
-
-  .pcard__badge-dot {
-    width: 16px;
-    height: 16px;
-    font-size: 0.58rem;
   }
 
   .proyectos-cta {

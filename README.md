@@ -86,8 +86,9 @@ más oscuro.
   diferencia del carrusel simple, calcula cuántas tarjetas caben por página
   y genera un punto de paginación por página (`.pcarousel__dot`). Sin
   auto-scroll — es 100% manual (flechas, puntos o swipe táctil).
-- **Badges** (`.badge` genérico; `.pcard__badge` con punto de color en
-  Proyectos): píldora con fondo `--bg-alt` y borde.
+- **Badges** (`.badge` genérico; `.pcard__badge` en Proyectos): píldora de
+  texto simple con fondo `--bg-alt` y borde — sin ícono ni punto de color
+  (se quitaron por no aportar información y ocupar espacio extra en móvil).
 
 ## Cómo agregar un proyecto nuevo a "Proyectos"
 
@@ -130,7 +131,7 @@ infinito, así que cada tarjeta va **una sola vez**). Al agregar uno:
        <p class="pcard__desc" data-en="...">Descripción</p>
        <button type="button" class="pcard__case" data-toggle-desc aria-expanded="false">Ver más →</button>
        <div class="pcard__stack">
-         <span class="pcard__badge"><span class="pcard__badge-dot" style="background-color:#HEX">X</span>Herramienta</span>
+         <span class="pcard__badge">Herramienta</span>
        </div>
      </div>
    </article>
