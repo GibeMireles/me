@@ -266,7 +266,7 @@ img {
   height: 240px;
   object-fit: cover;
   border-radius: 50%;
-  border: 6px solid var(--bg-alt);
+  border: 6px solid #39FF14;
   box-shadow: var(--shadow);
 }
 
