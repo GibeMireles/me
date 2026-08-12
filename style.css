@@ -318,6 +318,23 @@ img {
   transform: translateY(-6px);
 }
 
+.service-card__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: rgba(20, 184, 166, 0.12);
+  color: var(--accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.service-card__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
 .service-card h3 {
   font-size: 1.15rem;
   color: var(--accent-dark);
