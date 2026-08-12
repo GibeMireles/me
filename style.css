@@ -388,24 +388,27 @@ img {
   align-items: center;
   gap: 10px;
   margin-bottom: 16px;
-  min-height: 52px;
+  min-height: 70px;
 }
 
 .project-card__logo {
-  width: 120px;
-  height: 52px;
-  object-fit: contain;
+  height: 56px;
+  width: auto;
+  max-width: 220px;
   background-color: #FFFFFF;
   border: 1px solid var(--card-border);
   border-radius: 6px;
   padding: 6px 10px;
-  box-sizing: border-box;
 }
 
 .project-card__logos {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.project-card__logos .project-card__logo {
+  height: 40px;
 }
 
 .project-card__avatar {
