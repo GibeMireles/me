@@ -450,6 +450,22 @@ img {
   box-shadow: var(--shadow);
 }
 
+.project-card__icon-circle {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: rgba(20, 184, 166, 0.12);
+  color: var(--accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card__icon-circle svg {
+  width: 42px;
+  height: 42px;
+}
+
 .project-card p {
   color: var(--muted);
   font-size: 0.95rem;
