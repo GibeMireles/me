@@ -464,8 +464,33 @@ img {
 
 .stack-categories {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.stack-category {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+
+.stack-category__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: rgba(20, 184, 166, 0.12);
+  color: var(--accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.stack-category__icon svg {
+  width: 26px;
+  height: 26px;
 }
 
 .stack-category h3 {
