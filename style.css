@@ -349,3 +349,21 @@ img {
   flex-wrap: wrap;
   gap: 8px;
 }
+
+.stack-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+.stack-category h3 {
+  font-size: 1.05rem;
+  color: var(--accent-dark);
+  margin-bottom: 16px;
+}
+
+.stack-category__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
