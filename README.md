@@ -33,11 +33,16 @@ python -m http.server 8000
 1. **Hero** — nombre, título, frase de valor, CTA "Conectemos"
 2. **Sobre mí** (`#sobre-mi`) — foto + bio
 3. **Servicios** (`#servicios`) — carrusel horizontal con flechas, 4 tarjetas con ícono
-4. **Proyectos** (`#proyectos`) — carrusel de ancho completo con auto-scroll (solo desktop) + flechas, logos de clientes en círculo
+4. **Proyectos** (`#proyectos`) — carrusel paginado (puntos + flechas, sin auto-scroll),
+   tarjetas con captura real del dashboard/entregable arriba, logo del cliente
+   superpuesto, categoría, título, descripción truncada a 2 líneas con
+   "Ver más →", stack con badges de color, y un banner de CTA
+   ("¿Tienes un proyecto en mente?") al final de la sección
 5. **Stack tecnológico** (`#stack`) — 4 tarjetas por categoría con ícono
 6. **Formación y certificaciones** (`#formacion`) — línea de tiempo (formación académica) + cuadrícula de chips (certificaciones)
 7. **Contacto** (`#contacto`) — email, LinkedIn, ubicación
 8. Botón flotante de WhatsApp (fijo, todas las secciones)
+9. Selector de idioma ES/EN (botón en el header, ver "Sistema de traducción" abajo)
 
 ## Sistema de diseño
 
@@ -73,21 +78,27 @@ más oscuro.
 - **Tarjeta con ícono circular** (Servicios, Stack, Formación): círculo de
   52px, fondo `rgba(20,184,166,.12)`, ícono SVG stroke-based (`stroke-width:
   1.8`, sin relleno) — nunca emojis.
-- **Carrusel** (`.carousel` / `.projects-carousel` + `[data-carousel-track]`
-  + `[data-carousel-prev/next]`): la lógica de flechas en `script.js` es
-  genérica, funciona para cualquier contenedor con esos atributos.
-- **Badges** (`.badge`): píldora con fondo `--bg-alt` y borde, usada para
-  stack tecnológico y estrellas de proyectos.
+- **Carrusel simple** (`.carousel` en Servicios, usado con
+  `[data-carousel-track]` + `[data-carousel-prev/next]`): las flechas
+  desplazan el contenedor un 80% de su ancho. Lógica genérica en `script.js`.
+- **Carrusel paginado** (`.pcarousel` en Proyectos, con `.pcarousel__viewport`
+  + `.pcarousel__track` + `[data-pcarousel-track/prev/next/dots]`): a
+  diferencia del carrusel simple, calcula cuántas tarjetas caben por página
+  y genera un punto de paginación por página (`.pcarousel__dot`). Sin
+  auto-scroll — es 100% manual (flechas, puntos o swipe táctil).
+- **Badges** (`.badge` genérico; `.pcard__badge` con punto de color en
+  Proyectos): píldora con fondo `--bg-alt` y borde.
 
 ## Cómo agregar un proyecto nuevo a "Proyectos"
 
-El carrusel de Proyectos hace loop infinito duplicando todas las tarjetas
-(el segundo set tiene `aria-hidden="true"`). Al agregar un proyecto:
+Cada proyecto es un `<article class="pcard">` dentro de
+`.pcarousel__track` (sin duplicados — el carrusel paginado no hace loop
+infinito, así que cada tarjeta va **una sola vez**). Al agregar uno:
 
-1. **Logo del cliente:** si te pasan un archivo, procésalo así antes de
-   guardarlo en `assets/`:
-   - Recortar el margen/espacio en blanco alrededor del logo
-     (usar el color de la esquina como referencia de fondo)
+1. **Logo del cliente** (`assets/<cliente>.png`): si te pasan un archivo,
+   procésalo así antes de guardarlo:
+   - Recortar el margen/espacio en blanco alrededor del logo (usar el color
+     de la esquina como referencia de fondo)
    - Componerlo sobre un lienzo cuadrado relleno con **su propio color de
      fondo** (no blanco) — así se ve bien dentro del círculo sin espacios
      vacíos ni logos de texto cortados
@@ -96,27 +107,68 @@ El carrusel de Proyectos hace loop infinito duplicando todas las tarjetas
    - **Siempre haz un respaldo (`shutil.copy2`) antes de sobrescribir el
      archivo original y verifica que el resultado se guardó bien antes de
      borrar el respaldo** — ya perdimos un logo una vez por no hacer esto.
-   - Si no hay logo disponible, usa un ícono SVG temático en
-     `.project-card__icon-circle` en vez de dejarlo vacío o con iniciales.
-2. **HTML:** agrega la tarjeta completa (logo + `<h3>` + `<p
-   class="project-card__desc">` + botón "Leer más" + stack) **dos veces**:
-   una vez en el set original y otra vez en el set `aria-hidden="true"` al
-   final del carrusel. Si se te olvida la copia duplicada, el loop del
-   carrusel se ve con un salto/corte.
-3. Descripción larga: se trunca a 2 líneas automáticamente
-   (`.project-card__desc` + botón `[data-toggle-desc]` en `script.js`), así
-   que no hace falta acortarla a mano — pero tampoco conviene que sea
-   excesivamente larga.
+   - Si no hay logo disponible, usa `.project-card__icon-circle` (círculo
+     con ícono SVG temático) en vez de dejarlo vacío o con iniciales — patrón
+     usado antes de tener el logo real de Cisneros Gómez, por ejemplo.
+2. **Captura de evidencia** (`assets/<cliente>_evidencia.png`): un
+   screenshot real del dashboard/CRM/entregable — **no la inventes**, si no
+   hay captura disponible pregunta antes de fabricar datos falsos para un
+   cliente real. Va en `.pcard__media` con `object-fit: cover;
+   object-position: center top` (deja pasar cualquier proporción/tamaño, se
+   recorta mostrando la parte de arriba).
+3. **HTML** — estructura de cada `.pcard`:
+   ```html
+   <article class="pcard">
+     <div class="pcard__media">
+       <img class="pcard__screenshot" loading="lazy" src="assets/cliente_evidencia.png" alt="...">
+       <img class="pcard__logo" loading="lazy" src="assets/cliente.png" alt="Cliente">
+       <!-- o .pcard__logo-group con 2+ <img class="pcard__logo"> si son varios clientes -->
+     </div>
+     <div class="pcard__body">
+       <span class="pcard__eyebrow" data-en="...">Dashboard|CRM|Sitio Web|Consultoría</span>
+       <h3 data-en="...">Título</h3>
+       <p class="pcard__desc" data-en="...">Descripción</p>
+       <button type="button" class="pcard__case" data-toggle-desc aria-expanded="false">Ver más →</button>
+       <div class="pcard__stack">
+         <span class="pcard__badge"><span class="pcard__badge-dot" style="background-color:#HEX">X</span>Herramienta</span>
+       </div>
+     </div>
+   </article>
+   ```
+   El texto inicial del botón `Ver más →` no importa mucho — `script.js` lo
+   sobreescribe según idioma/estado al cargar.
+4. Después de agregar/quitar tarjetas, la paginación por puntos se recalcula
+   sola en el próximo `resize`/carga — no hay que tocar nada más.
+5. **Traducción:** agrega `data-en="..."` a `.pcard__eyebrow`, `h3` y
+   `.pcard__desc` (ver "Sistema de traducción" abajo) para que el toggle
+   ES/EN funcione en la tarjeta nueva.
+
+## Sistema de traducción (ES/EN)
+
+Botón `#lang-toggle` en el header. Un solo `index.html` — nada de páginas
+duplicadas. `script.js` hace todo el trabajo con atributos `data-*`:
+
+| Atributo | Qué traduce | Ejemplo |
+|---|---|---|
+| `data-en="..."` | `textContent` del elemento | `<h3 data-en="Services">Servicios</h3>` |
+| `data-aria-en="..."` | atributo `aria-label` | botones de flecha, WhatsApp |
+| `data-content-en="..."` | atributo `content` (meta tags) | meta description |
+| `data-href-en="..."` | atributo `href` | el link de WhatsApp (mensaje distinto en inglés) |
+
+La preferencia se guarda en `localStorage` (`site-lang`). Se aplica al
+cargar la página (`applyLanguage(storedLang)` al final de `script.js`).
+
+**No se traducen** (son nombres propios): instituciones, nombres de cursos/
+certificaciones, nombres de clientes, y las herramientas del stack
+tecnológico (Python, Kommo CRM, etc.).
 
 ## Notas de comportamiento
 
-- El auto-scroll del carrusel de Proyectos **se desactiva en pantallas
-  ≤768px** (`script.js`) porque competía con los toques/taps en botones
-  como "Leer más" — en móvil el usuario desliza manualmente.
-- Las flechas de los carruseles se ocultan en `≤768px` por la misma razón
-  (el swipe táctil nativo ya cubre esa función).
-- El auto-scroll respeta `prefers-reduced-motion`.
-- Todas las imágenes de logos usan `loading="lazy"`.
+- El carrusel de Proyectos **no tiene auto-scroll** (se probó y competía con
+  los toques/taps en botones como "Ver más" en móvil) — es 100% manual.
+- Las flechas de los carruseles se ocultan en `≤768px` (el swipe táctil
+  nativo ya cubre esa función).
+- Todas las imágenes de logos y capturas de evidencia usan `loading="lazy"`.
 
 ## Despliegue
 

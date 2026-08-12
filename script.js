@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.querySelectorAll('.carousel, .projects-carousel').forEach((wrap) => {
+  document.querySelectorAll('.carousel').forEach((wrap) => {
     const track = wrap.querySelector('[data-carousel-track]');
     const prevBtn = wrap.querySelector('[data-carousel-prev]');
     const nextBtn = wrap.querySelector('[data-carousel-next]');
@@ -20,55 +20,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
     prevBtn.addEventListener('click', () => {
       track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
-      if (track.pauseAutoplay) track.pauseAutoplay();
     });
 
     nextBtn.addEventListener('click', () => {
       track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
-      if (track.pauseAutoplay) track.pauseAutoplay();
     });
   });
 
-  const projectsTrack = document.querySelector('.projects-track');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+  const pViewport = document.querySelector('.pcarousel__viewport');
+  const pTrack = document.querySelector('[data-pcarousel-track]');
+  const pPrevBtn = document.querySelector('[data-pcarousel-prev]');
+  const pNextBtn = document.querySelector('[data-pcarousel-next]');
+  const pDotsWrap = document.querySelector('[data-pcarousel-dots]');
 
-  if (projectsTrack && !reduceMotion && !isSmallScreen) {
-    let paused = false;
-    let resumeTimeout = null;
+  if (pViewport && pTrack && pPrevBtn && pNextBtn && pDotsWrap) {
+    const pCards = Array.from(pTrack.children);
 
-    const step = () => {
-      if (!paused) {
-        const half = projectsTrack.scrollWidth / 2;
-        projectsTrack.scrollLeft += 0.6;
-        if (projectsTrack.scrollLeft >= half) {
-          projectsTrack.scrollLeft -= half;
-        }
+    const getCardsPerView = () => {
+      if (pCards.length < 2) return 1;
+      const unit = pCards[1].getBoundingClientRect().left - pCards[0].getBoundingClientRect().left;
+      return Math.max(1, Math.round(pViewport.clientWidth / unit));
+    };
+
+    const updateDots = () => {
+      const page = Math.round(pTrack.scrollLeft / pViewport.clientWidth);
+      const lang = document.documentElement.lang === 'en' ? 'en' : 'es';
+      Array.from(pDotsWrap.children).forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === page);
+        dot.setAttribute('aria-label', lang === 'en' ? `Go to page ${i + 1}` : `Ir a la página ${i + 1}`);
+      });
+    };
+
+    const buildDots = () => {
+      pDotsWrap.innerHTML = '';
+      const pageCount = Math.max(1, Math.ceil(pCards.length / getCardsPerView()));
+      for (let i = 0; i < pageCount; i += 1) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'pcarousel__dot';
+        dot.addEventListener('click', () => {
+          pTrack.scrollTo({ left: i * pViewport.clientWidth, behavior: 'smooth' });
+        });
+        pDotsWrap.appendChild(dot);
       }
-      requestAnimationFrame(step);
+      updateDots();
     };
 
-    projectsTrack.pauseAutoplay = () => {
-      paused = true;
-      clearTimeout(resumeTimeout);
-      resumeTimeout = setTimeout(() => {
-        paused = false;
-      }, 3000);
-    };
-
-    projectsTrack.addEventListener('mouseenter', () => {
-      paused = true;
+    pPrevBtn.addEventListener('click', () => {
+      pTrack.scrollBy({ left: -pViewport.clientWidth, behavior: 'smooth' });
     });
-    projectsTrack.addEventListener('mouseleave', () => {
-      clearTimeout(resumeTimeout);
-      paused = false;
+    pNextBtn.addEventListener('click', () => {
+      pTrack.scrollBy({ left: pViewport.clientWidth, behavior: 'smooth' });
     });
-    projectsTrack.addEventListener('touchstart', () => {
-      paused = true;
-    }, { passive: true });
-    projectsTrack.addEventListener('touchend', projectsTrack.pauseAutoplay);
 
-    requestAnimationFrame(step);
+    let pScrollTimeout;
+    pTrack.addEventListener('scroll', () => {
+      clearTimeout(pScrollTimeout);
+      pScrollTimeout = setTimeout(updateDots, 100);
+    });
+
+    let pResizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(pResizeTimeout);
+      pResizeTimeout = setTimeout(buildDots, 200);
+    });
+
+    buildDots();
   }
 
   const navLinks = document.querySelectorAll('.nav a[href^="#"]');
@@ -98,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const toggleLabels = {
-    es: { collapsed: 'Leer más', expanded: 'Leer menos' },
-    en: { collapsed: 'Read more', expanded: 'Read less' },
+    es: { collapsed: 'Ver más →', expanded: 'Ver menos' },
+    en: { collapsed: 'Read more →', expanded: 'Read less' },
   };
 
   const updateToggleLabel = (button) => {
@@ -153,6 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll('[data-toggle-desc]').forEach(updateToggleLabel);
+
+    document.querySelectorAll('.pcarousel__dot').forEach((dot, i) => {
+      dot.setAttribute('aria-label', lang === 'en' ? `Go to page ${i + 1}` : `Ir a la página ${i + 1}`);
+    });
 
     const langToggle = document.getElementById('lang-toggle');
     if (langToggle) {
