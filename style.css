@@ -367,3 +367,41 @@ img {
   flex-wrap: wrap;
   gap: 8px;
 }
+
+.education {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 48px;
+}
+
+.education-block h3 {
+  font-size: 1.15rem;
+  margin-bottom: 20px;
+}
+
+.education-list {
+  list-style: none;
+}
+
+.education-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.education-list li:last-child {
+  border-bottom: none;
+}
+
+.education-list__title {
+  font-weight: 600;
+  color: var(--heading);
+  font-size: 0.98rem;
+}
+
+.education-list__meta {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
