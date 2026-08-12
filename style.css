@@ -459,3 +459,19 @@ img {
 .whatsapp-float:hover {
   transform: scale(1.08);
 }
+
+@media (max-width: 480px) {
+  .section {
+    padding: 64px 0;
+  }
+  .section-title {
+    font-size: 1.6rem;
+  }
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+  .btn {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+}
