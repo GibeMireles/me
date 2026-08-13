@@ -122,8 +122,7 @@ infinito, así que cada tarjeta va **una sola vez**). Al agregar uno:
    <article class="pcard">
      <div class="pcard__media">
        <img class="pcard__screenshot" loading="lazy" src="assets/cliente_evidencia.png" alt="...">
-       <img class="pcard__logo" loading="lazy" src="assets/cliente.png" alt="Cliente">
-       <!-- o .pcard__logo-group con 2+ <img class="pcard__logo"> si son varios clientes -->
+       <img class="pcard__logo" loading="lazy" src="assets/cliente.png" alt="Cliente"><!-- círculo de 68px, superpuesto sobre la esquina inferior izq. de la captura -->
      </div>
      <div class="pcard__body">
        <span class="pcard__eyebrow" data-en="...">Dashboard|CRM|Sitio Web|Consultoría</span>
@@ -170,6 +169,10 @@ tecnológico (Python, Kommo CRM, etc.).
 - Las flechas de los carruseles se ocultan en `≤768px` (el swipe táctil
   nativo ya cubre esa función).
 - Todas las imágenes de logos y capturas de evidencia usan `loading="lazy"`.
+- En `≤700px`, `.pcard__stack` limita el bloque de badges a ~2 filas
+  (`max-height` + `overflow: hidden`) para que las tarjetas de Proyectos no
+  se alarguen demasiado en móvil — si un proyecto tiene muchas
+  herramientas, las que no caben en 2 filas simplemente no se muestran ahí.
 
 ## Despliegue
 
