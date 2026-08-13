@@ -127,6 +127,14 @@ infinito, así que cada tarjeta va **una sola vez**). Al agregar uno:
      sobrescribir el archivo real, guarda una copia de prueba en un
      directorio aparte y revísala visualmente — las coordenadas de texto en
      un dashboard casi nunca son las que uno espera a primera vista.
+   - **Difumina cada cifra/nombre individualmente, nunca con un solo
+     rectángulo grande cubriendo toda una fila/columna/gráfica.** Un bloque
+     grande se ve como censura obvia y, si cae encima de un borde de
+     tarjeta, lo borra dejando la tarjeta "flotando" sin contorno. Recorta
+     un box ajustado por cada número/nombre (o, si son varios valores
+     dispersos en una gráfica, un box angosto por barra/columna de datos)
+     dejando bordes, labels y espacio en blanco intactos — más iteraciones,
+     pero se ve intencional en vez de un parche.
 3. **HTML** — estructura de cada `.pcard`:
    ```html
    <article class="pcard">
