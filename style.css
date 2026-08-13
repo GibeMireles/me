@@ -415,6 +415,10 @@ img {
   .carousel__arrow {
     display: none;
   }
+
+  .pcarousel__dots {
+    display: none;
+  }
 }
 
 .pcarousel {
