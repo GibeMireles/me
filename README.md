@@ -117,6 +117,16 @@ infinito, así que cada tarjeta va **una sola vez**). Al agregar uno:
    cliente real. Va en `.pcard__media` con `object-fit: cover;
    object-position: center top` (deja pasar cualquier proporción/tamaño, se
    recorta mostrando la parte de arriba).
+   - **Antes de guardarla, revisa si expone cifras reales (ingresos, montos,
+     KPIs) o datos personales de terceros (nombres, teléfonos de leads o
+     empleados)** y difumínalos directamente en el PNG (no con CSS — un
+     `filter: blur()` es solo cosmético, el archivo original seguiría
+     teniendo el dato real). Usa `PIL.ImageFilter.GaussianBlur` sobre la
+     región exacta (recórtala, aplícale blur, pégala de vuelta), con el
+     mismo patrón de respaldo/verificación que para los logos. Antes de
+     sobrescribir el archivo real, guarda una copia de prueba en un
+     directorio aparte y revísala visualmente — las coordenadas de texto en
+     un dashboard casi nunca son las que uno espera a primera vista.
 3. **HTML** — estructura de cada `.pcard`:
    ```html
    <article class="pcard">
