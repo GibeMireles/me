@@ -127,10 +127,18 @@ nunca bloquea clics en el texto/botón del hero.
   `[data-carousel-track]` + `[data-carousel-prev/next]`): las flechas
   desplazan el contenedor un 80% de su ancho. Lógica genérica en `script.js`.
 - **Carrusel paginado** (`.pcarousel` en Proyectos, con `.pcarousel__viewport`
-  + `.pcarousel__track` + `[data-pcarousel-track/prev/next/dots]`): a
-  diferencia del carrusel simple, calcula cuántas tarjetas caben por página
-  y genera un punto de paginación por página (`.pcarousel__dot`). Sin
-  auto-scroll — es 100% manual (flechas, puntos o swipe táctil).
+  + `.pcarousel__track` + `[data-pcarousel-track/prev/next/progress-fill]`):
+  a diferencia del carrusel simple, calcula cuántas tarjetas caben por
+  página (usando el ancho real de tarjeta+gap, no el ancho del viewport) y
+  muestra el avance con una sola línea delgada (`.pcarousel__progress-fill`,
+  máx. 160px) que crece según la página actual — sin contador numérico ni
+  contenedor/track de fondo, en vez de puntos — con muchos proyectos, una
+  fila de puntos se ve saturada tanto en desktop como en móvil. El
+  contenedor (`[data-pcarousel-progress]`) lleva `role="progressbar"` +
+  `aria-valuemin/max/now` (actualizados en cada scroll/resize) y
+  `aria-label` traducible, para no perder el indicador de posición en
+  lectores de pantalla al quitar el texto visible. Sin auto-scroll — es
+  100% manual (flechas o swipe táctil).
 - **Badges** (`.badge` genérico; `.pcard__badge` en Proyectos): píldora de
   texto simple con fondo `--bg-alt` y borde — sin ícono ni punto de color
   (se quitaron por no aportar información y ocupar espacio extra en móvil).
