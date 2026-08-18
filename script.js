@@ -36,14 +36,20 @@ document.addEventListener('DOMContentLoaded', () => {
   if (pViewport && pTrack && pPrevBtn && pNextBtn && pDotsWrap) {
     const pCards = Array.from(pTrack.children);
 
-    const getCardsPerView = () => {
-      if (pCards.length < 2) return 1;
-      const unit = pCards[1].getBoundingClientRect().left - pCards[0].getBoundingClientRect().left;
-      return Math.max(1, Math.round(pViewport.clientWidth / unit));
+    let cardUnit = pViewport.clientWidth;
+    let cardsPerView = 1;
+    let pageScrollAmount = pViewport.clientWidth;
+
+    const measure = () => {
+      cardUnit = pCards.length < 2
+        ? pViewport.clientWidth
+        : pCards[1].getBoundingClientRect().left - pCards[0].getBoundingClientRect().left;
+      cardsPerView = Math.max(1, Math.round(pViewport.clientWidth / cardUnit));
+      pageScrollAmount = cardUnit * cardsPerView;
     };
 
     const updateDots = () => {
-      const page = Math.round(pTrack.scrollLeft / pViewport.clientWidth);
+      const page = Math.round(pTrack.scrollLeft / pageScrollAmount);
       const lang = document.documentElement.lang === 'en' ? 'en' : 'es';
       Array.from(pDotsWrap.children).forEach((dot, i) => {
         dot.classList.toggle('is-active', i === page);
@@ -52,14 +58,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const buildDots = () => {
+      measure();
       pDotsWrap.innerHTML = '';
-      const pageCount = Math.max(1, Math.ceil(pCards.length / getCardsPerView()));
+      const pageCount = Math.max(1, Math.ceil(pCards.length / cardsPerView));
       for (let i = 0; i < pageCount; i += 1) {
         const dot = document.createElement('button');
         dot.type = 'button';
         dot.className = 'pcarousel__dot';
         dot.addEventListener('click', () => {
-          pTrack.scrollTo({ left: i * pViewport.clientWidth, behavior: 'smooth' });
+          pTrack.scrollTo({ left: i * pageScrollAmount, behavior: 'smooth' });
         });
         pDotsWrap.appendChild(dot);
       }
@@ -67,10 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     pPrevBtn.addEventListener('click', () => {
-      pTrack.scrollBy({ left: -pViewport.clientWidth, behavior: 'smooth' });
+      pTrack.scrollBy({ left: -pageScrollAmount, behavior: 'smooth' });
     });
     pNextBtn.addEventListener('click', () => {
-      pTrack.scrollBy({ left: pViewport.clientWidth, behavior: 'smooth' });
+      pTrack.scrollBy({ left: pageScrollAmount, behavior: 'smooth' });
     });
 
     let pScrollTimeout;
