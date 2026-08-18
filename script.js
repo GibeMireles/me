@@ -199,4 +199,237 @@ document.addEventListener('DOMContentLoaded', () => {
     storedLang = 'es';
   }
   applyLanguage(storedLang);
+
+  const heroCanvas = document.querySelector('.hero__canvas');
+  const heroSection = document.querySelector('.hero');
+  if (heroCanvas && heroSection) {
+    const ctx = heroCanvas.getContext('2d');
+    const NODE_COLOR = '20, 184, 166';
+    const NODE_COUNT = 34;
+    const LINK_DISTANCE = 150;
+    const LINK_OPACITY = 0.14;
+    const MAX_PULSES = 6;
+    const PULSE_SPAWN_INTERVAL = 700;
+    const PULSE_DURATION = 900;
+    const INTERACT_RADIUS = 140;
+    const ATTRACT_STRENGTH = 0.9;
+    const RIPPLE_RADIUS = 220;
+    const RIPPLE_MAX_NODES = 8;
+    const RIPPLE_RING_DURATION = 600;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let width = 0;
+    let height = 0;
+    let nodes = [];
+    let pulses = [];
+    let ripples = [];
+    let lastPulseSpawn = 0;
+    const mouse = { x: -9999, y: -9999 };
+
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    heroSection.addEventListener('mouseleave', () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    heroSection.addEventListener('click', (e) => {
+      if (e.target !== heroSection || prefersReducedMotion) return;
+      const rect = heroSection.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      ripples.push({ x: clickX, y: clickY, start: performance.now() });
+
+      const nearby = nodes
+        .map((node, idx) => ({ idx, dist: Math.hypot(node.x - clickX, node.y - clickY) }))
+        .filter((n) => n.dist < RIPPLE_RADIUS)
+        .sort((a, b) => a.dist - b.dist)
+        .slice(0, RIPPLE_MAX_NODES);
+
+      nearby.forEach((n) => {
+        pulses.push({
+          fromPos: { x: clickX, y: clickY },
+          toIdx: n.idx,
+          start: performance.now()
+        });
+      });
+    });
+
+    const resize = () => {
+      width = heroSection.clientWidth;
+      height = heroSection.clientHeight;
+      heroCanvas.width = width * dpr;
+      heroCanvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const createNodes = () => {
+      nodes = Array.from({ length: NODE_COUNT }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.7,
+        vy: (Math.random() - 0.5) * 0.7,
+        radius: 1.2 + Math.random() * 1.8,
+        baseOpacity: 0.35 + Math.random() * 0.4,
+        pulseSpeed: 0.5 + Math.random() * 0.8,
+        pulseOffset: Math.random() * Math.PI * 2,
+        hasRing: Math.random() < 0.35
+      }));
+    };
+
+    const step = (time) => {
+      ctx.clearRect(0, 0, width, height);
+
+      nodes.forEach((node) => {
+        node.x += node.vx;
+        node.y += node.vy;
+        if (node.x < 0 || node.x > width) node.vx *= -1;
+        if (node.y < 0 || node.y > height) node.vy *= -1;
+        node.x = Math.max(0, Math.min(width, node.x));
+        node.y = Math.max(0, Math.min(height, node.y));
+
+        const dxMouse = mouse.x - node.x;
+        const dyMouse = mouse.y - node.y;
+        const mouseDist = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+        if (mouseDist < INTERACT_RADIUS && mouseDist > 0.01) {
+          const pull = (1 - mouseDist / INTERACT_RADIUS) * ATTRACT_STRENGTH;
+          node.x += (dxMouse / mouseDist) * pull;
+          node.y += (dyMouse / mouseDist) * pull;
+        }
+      });
+
+      const edges = [];
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < LINK_DISTANCE) {
+            const opacity = (1 - dist / LINK_DISTANCE) * LINK_OPACITY;
+            ctx.strokeStyle = `rgba(${NODE_COLOR}, ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+            edges.push(i, j);
+          }
+        }
+      }
+
+      if (mouse.x !== -9999) {
+        nodes.forEach((node) => {
+          const dxMouse = node.x - mouse.x;
+          const dyMouse = node.y - mouse.y;
+          const mouseDist = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+          if (mouseDist < INTERACT_RADIUS) {
+            const opacity = (1 - mouseDist / INTERACT_RADIUS) * LINK_OPACITY * 2.5;
+            ctx.strokeStyle = `rgba(${NODE_COLOR}, ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+            ctx.lineTo(node.x, node.y);
+            ctx.stroke();
+          }
+        });
+      }
+
+      if (!prefersReducedMotion && edges.length && time - lastPulseSpawn > PULSE_SPAWN_INTERVAL && pulses.length < MAX_PULSES) {
+        lastPulseSpawn = time;
+        const pairIndex = (Math.floor(Math.random() * (edges.length / 2)) * 2);
+        const forward = Math.random() < 0.5;
+        pulses.push({
+          fromIdx: forward ? edges[pairIndex] : edges[pairIndex + 1],
+          toIdx: forward ? edges[pairIndex + 1] : edges[pairIndex],
+          start: time
+        });
+      }
+
+      pulses = pulses.filter((p) => time - p.start < PULSE_DURATION);
+      pulses.forEach((p) => {
+        const a = p.fromPos || nodes[p.fromIdx];
+        const b = nodes[p.toIdx];
+        if (!a || !b) return;
+        const progress = (time - p.start) / PULSE_DURATION;
+        const eased = Math.sin(progress * Math.PI);
+        const px = a.x + (b.x - a.x) * progress;
+        const py = a.y + (b.y - a.y) * progress;
+
+        ctx.beginPath();
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${NODE_COLOR}, ${eased * 0.85})`;
+        ctx.fill();
+      });
+
+      ripples = ripples.filter((r) => time - r.start < RIPPLE_RING_DURATION);
+      ripples.forEach((r) => {
+        const progress = (time - r.start) / RIPPLE_RING_DURATION;
+        const radius = progress * RIPPLE_RADIUS * 0.6;
+        const opacity = (1 - progress) * 0.5;
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${NODE_COLOR}, ${opacity})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      });
+
+      const t = time / 1000;
+      nodes.forEach((node) => {
+        const pulse = (Math.sin(t * node.pulseSpeed + node.pulseOffset) + 1) / 2;
+        const dxMouse = node.x - mouse.x;
+        const dyMouse = node.y - mouse.y;
+        const mouseDist = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+        const proximity = mouseDist < INTERACT_RADIUS ? 1 - mouseDist / INTERACT_RADIUS : 0;
+
+        const opacity = Math.min(1, node.baseOpacity * (0.7 + 0.3 * pulse) + proximity * 0.4);
+        const radius = node.radius + proximity * 1.8;
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${NODE_COLOR}, ${opacity})`;
+        ctx.fill();
+
+        if (node.hasRing) {
+          const ringRadius = node.radius + 2 + pulse * 3;
+          const ringOpacity = (1 - pulse) * 0.3 * node.baseOpacity;
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, ringRadius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${NODE_COLOR}, ${ringOpacity})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      });
+
+      const textGradient = ctx.createRadialGradient(
+        width / 2, height / 2, 0,
+        width / 2, height / 2, Math.max(width, height) * 0.55
+      );
+      textGradient.addColorStop(0, 'rgba(15, 23, 42, 0.22)');
+      textGradient.addColorStop(1, 'rgba(15, 23, 42, 0)');
+      ctx.fillStyle = textGradient;
+      ctx.fillRect(0, 0, width, height);
+
+      if (!prefersReducedMotion) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    resize();
+    createNodes();
+    requestAnimationFrame(step);
+
+    window.addEventListener('resize', () => {
+      resize();
+      if (prefersReducedMotion) {
+        step(performance.now());
+      }
+    });
+  }
 });

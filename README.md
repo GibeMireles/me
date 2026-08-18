@@ -73,6 +73,51 @@ vía Google Fonts.
 texto `--muted` sobre un fondo `--bg-tint` en otro lado, usa ese mismo tono
 más oscuro.
 
+## Efecto de fondo animado del Hero (red neuronal)
+
+El `<section class="hero">` tiene un fondo animado de nodos conectados
+(estilo grafo/red neuronal) dibujado con `<canvas>` y JS puro — sin
+librerías externas. El código vive en un solo bloque dentro del
+`DOMContentLoaded` de `script.js` (busca `heroCanvas`); el markup es un
+único `<canvas class="hero__canvas" aria-hidden="true">` insertado como
+primer hijo de `.hero` en `index.html`.
+
+**Posicionamiento:** `.hero` tiene `position: relative; overflow: hidden`;
+`.hero__canvas` es `position: absolute; inset: 0; z-index: 0; pointer-events:
+none`; `.hero__inner` es `position: relative; z-index: 1`. Así el canvas
+nunca bloquea clics en el texto/botón del hero.
+
+**Comportamiento:**
+- Nodos (color `#14B8A6`) flotan lentamente y rebotan en los bordes del hero.
+- Se dibuja una línea entre cada par de nodos a menos de `LINK_DISTANCE`.
+- Pulsos ambientales viajan por conexiones activas cada ~0.7s, simulando
+  señales/datos fluyendo por la red.
+- **Cursor como imán:** los nodos dentro de `INTERACT_RADIUS` del mouse se
+  atraen hacia él (no solo brillan) y se dibujan líneas del cursor a cada
+  nodo cercano, uniendo el patrón actual con el puntero.
+- **Click = ráfaga de activación:** un click en una zona vacía del hero
+  (nunca sobre el botón/links, filtrado por `e.target !== heroSection`)
+  dispara un anillo expansivo y pulsos hacia los nodos cercanos.
+- Respeta `prefers-reduced-motion`: si está activado, dibuja un solo frame
+  estático (sin movimiento, pulsos ni ráfagas) en vez de animar.
+- El canvas se redimensiona en el evento `resize` de la ventana.
+
+**Parámetros ajustables** (constantes al inicio del bloque en `script.js`):
+
+| Constante | Valor | Efecto |
+|---|---|---|
+| `NODE_COUNT` | 34 | Cantidad de nodos |
+| `LINK_DISTANCE` | 150px | Distancia máxima para dibujar línea entre nodos |
+| `LINK_OPACITY` | 0.14 | Opacidad máxima de las líneas |
+| `MAX_PULSES` | 6 | Pulsos ambientales simultáneos máximos |
+| `PULSE_SPAWN_INTERVAL` | 700ms | Frecuencia de spawn de pulsos ambientales |
+| `PULSE_DURATION` | 900ms | Duración de cada pulso viajando entre dos nodos |
+| `INTERACT_RADIUS` | 140px | Radio de atracción/brillo alrededor del cursor |
+| `ATTRACT_STRENGTH` | 0.9 | Fuerza del "imán" del cursor sobre nodos cercanos |
+| `RIPPLE_RADIUS` | 220px | Radio de nodos afectados por un click |
+| `RIPPLE_MAX_NODES` | 8 | Máximo de pulsos disparados por click |
+| `RIPPLE_RING_DURATION` | 600ms | Duración del anillo expansivo del click |
+
 ## Patrones reutilizables
 
 - **Tarjeta con ícono circular** (Servicios, Stack, Formación): círculo de
