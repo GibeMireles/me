@@ -101,6 +101,12 @@ nunca bloquea clics en el texto/botón del hero.
 - Respeta `prefers-reduced-motion`: si está activado, dibuja un solo frame
   estático (sin movimiento, pulsos ni ráfagas) en vez de animar.
 - El canvas se redimensiona en el evento `resize` de la ventana.
+- **Watchdog de `visibilitychange`:** el loop de animación se auto-programa
+  con `requestAnimationFrame(step)` al final de cada frame. En móvil, el
+  navegador a veces no entrega ese callback tras cambiar de pestaña/app
+  (ahorro de batería), lo que rompe la cadena y congela el efecto para
+  siempre. Al volver la pestaña a visible, si no se dibujó un frame en los
+  últimos 500ms, se relanza el loop manualmente.
 
 **Parámetros ajustables** (constantes al inicio del bloque en `script.js`):
 

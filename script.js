@@ -219,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let pulses = [];
     let ripples = [];
     let lastPulseSpawn = 0;
+    let lastFrameTime = performance.now();
     const mouse = { x: -9999, y: -9999 };
 
     heroSection.addEventListener('mousemove', (e) => {
@@ -277,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const step = (time) => {
+      lastFrameTime = time;
       ctx.clearRect(0, 0, width, height);
 
       nodes.forEach((node) => {
@@ -425,5 +427,13 @@ document.addEventListener('DOMContentLoaded', () => {
         step(performance.now());
       }
     });
+
+    if (!prefersReducedMotion) {
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && performance.now() - lastFrameTime > 500) {
+          requestAnimationFrame(step);
+        }
+      });
+    }
   }
 });
