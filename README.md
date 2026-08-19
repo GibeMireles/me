@@ -107,6 +107,18 @@ nunca bloquea clics en el texto/botón del hero.
   (ahorro de batería), lo que rompe la cadena y congela el efecto para
   siempre. Al volver la pestaña a visible, si no se dibujó un frame en los
   últimos 500ms, se relanza el loop manualmente.
+- **`step()` nunca debe lanzar una excepción sin capturar:** como el loop
+  se auto-programa a sí mismo, un solo error no capturado en cualquier
+  frame mata la animación para siempre (nunca se vuelve a llamar
+  `requestAnimationFrame`). Por eso el dibujo real vive en `drawFrame()` y
+  `step()` lo envuelve en `try/catch` — un frame puede fallar sin romper
+  los siguientes. Ya se dio un caso real: el anillo del click (`ripples`)
+  calculaba su radio como `progress * RIPPLE_RADIUS`, y si el timestamp
+  del click (`performance.now()`) leía un valor mayor al del frame de
+  `requestAnimationFrame` por unos milisegundos de desfase entre relojes,
+  `progress` salía negativo y `ctx.arc()` lanzaba `IndexSizeError` — de
+  ahí que el efecto se congelara "después de varios clics". El `progress`
+  de los ripples ahora se recorta a `[0, 1]`.
 
 **Parámetros ajustables** (constantes al inicio del bloque en `script.js`):
 

@@ -279,6 +279,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const step = (time) => {
       lastFrameTime = time;
+      try {
+        drawFrame(time);
+      } catch (err) {
+        console.error('Hero canvas animation frame skipped due to an error:', err);
+      }
+      if (!prefersReducedMotion) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    const drawFrame = (time) => {
       ctx.clearRect(0, 0, width, height);
 
       nodes.forEach((node) => {
@@ -366,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       ripples = ripples.filter((r) => time - r.start < RIPPLE_RING_DURATION);
       ripples.forEach((r) => {
-        const progress = (time - r.start) / RIPPLE_RING_DURATION;
+        const progress = Math.max(0, Math.min(1, (time - r.start) / RIPPLE_RING_DURATION));
         const radius = progress * RIPPLE_RADIUS * 0.6;
         const opacity = (1 - progress) * 0.5;
         ctx.beginPath();
@@ -411,10 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
       textGradient.addColorStop(1, 'rgba(15, 23, 42, 0)');
       ctx.fillStyle = textGradient;
       ctx.fillRect(0, 0, width, height);
-
-      if (!prefersReducedMotion) {
-        requestAnimationFrame(step);
-      }
     };
 
     resize();
