@@ -17,6 +17,14 @@ Sitio 100% estático — sin frameworks, sin build tools, sin backend.
 - `script.js` — scroll suave, carruseles, indicador de sección activa en el nav
 - `assets/` — foto de perfil y logos de clientes (ya optimizados/recortados)
 
+**Cache-busting:** `index.html` referencia `style.css?v=YYYYMMDD` y
+`script.js?v=YYYYMMDD`. Al no haber build step, algunos navegadores
+(sobre todo móviles) cachean agresivamente estos archivos y no revisan
+si cambiaron — un push puede verse bien en desktop y desactualizado en
+celular. **Sube ese número de versión en `index.html` cada vez que
+cambies `style.css` o `script.js`** para forzar que todos los
+navegadores traigan la versión nueva.
+
 ## Cómo correrlo localmente
 
 No requiere instalación. Basta con abrir `index.html` directamente en el
