@@ -67,6 +67,13 @@ vía Google Fonts.
 **Breakpoints:** `768px` (layout de 1 a 2 columnas, nav apilado) y `480px`
 (tipografía/espaciado más chico).
 
+**Espaciado entre secciones:** `.section { padding: 72px 0; }` (64px en
+`≤480px`). Antes era 96px — con dos secciones consecutivas eso sumaba
+192px de espacio combinado en cada borde, y se sentía excesivo sobre todo
+en secciones con poco contenido (como "Sobre mí"). El espaciado interno
+título→subtítulo (16px) y subtítulo→contenido (48px) es independiente de
+este padding y no se tocó.
+
 ⚠️ **Nota de contraste:** `--muted` (#64748B) sobre `--bg` da ~4.75:1
 (pasa WCAG AA por poco). Sobre `--bg-tint` cae a ~4.3:1 (no pasa). Por eso
 `.education-list__meta` usa `#475569` en vez de `var(--muted)` — si agregas
@@ -136,6 +143,31 @@ nunca bloquea clics en el texto/botón del hero.
 | `RIPPLE_MAX_NODES` | 8 | Máximo de pulsos disparados por click |
 | `RIPPLE_RING_DURATION` | 600ms | Duración del anillo expansivo del click |
 
+## Mancha con parallax en "Sobre mí"
+
+El fondo verde detrás de la foto de perfil (`.about__photo-backdrop`) es
+una capa independiente — no está fusionada con la `<img>` — para poder
+moverla a distinta velocidad que la foto al hacer scroll (efecto de
+profundidad). Ya no es un círculo perfecto: usa un `border-radius`
+asimétrico (`63% 37% 54% 46% / 43% 65% 35% 57%`) para una forma orgánica
+tipo mancha. La foto no lleva borde ni sombra — flota directo sobre la
+mancha (se probaron aro blanco y `box-shadow`, ninguno convenció).
+
+**Centrado horizontal vs. parallax:** el centrado usa `left` +
+`margin-left` (no `transform: translateX(-50%)`), porque el parallax
+mueve el elemento escribiendo `style.transform` directo en JS — si el
+centrado también dependiera de `transform`, cada actualización del
+parallax lo borraría. Es la causa de un bug real durante el desarrollo:
+el círculo se veía pegado a la derecha, invadiendo el texto, hasta
+separar ambos mecanismos.
+
+**Comportamiento:** en `script.js`, un `IntersectionObserver` sobre
+`#sobre-mi` solo activa el listener de `scroll` (con `requestAnimationFrame`
+para no recalcular más de una vez por frame) mientras la sección está en
+pantalla. El offset vertical es `(centroViewport - centroSección) *
+PARALLAX_FACTOR` (0.15), limitado a `±PARALLAX_MAX_OFFSET` (40px).
+Respeta `prefers-reduced-motion` (no se activa si está encendido).
+
 ## Patrones reutilizables
 
 - **Tarjeta con ícono circular** (Servicios, Stack, Formación): círculo de
@@ -160,6 +192,13 @@ nunca bloquea clics en el texto/botón del hero.
 - **Badges** (`.badge` genérico; `.pcard__badge` en Proyectos): píldora de
   texto simple con fondo `--bg-alt` y borde — sin ícono ni punto de color
   (se quitaron por no aportar información y ocupar espacio extra en móvil).
+- **Cert-chip con logo** (`.cert-chip` en Formación): logo de la
+  institución (`.cert-chip__logo`, 24px, `object-fit: contain` para no
+  deformar logos con proporciones distintas — cuadrados, wordmarks
+  anchos, etc.) en fila junto al título dentro de `.cert-chip__head`;
+  meta (institución · año) debajo. Logos en `assets/*_logo.{png,webp}`;
+  si una institución se repite (p. ej. HubSpot, Vanderbilt), reusa el
+  mismo archivo en cada chip correspondiente.
 
 ## Cómo agregar un proyecto nuevo a "Proyectos"
 

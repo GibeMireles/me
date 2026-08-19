@@ -443,4 +443,46 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
+
+  const aboutSection = document.getElementById('sobre-mi');
+  const aboutBackdrop = document.querySelector('.about__photo-backdrop');
+  const prefersReducedMotionAbout = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (aboutSection && aboutBackdrop && !prefersReducedMotionAbout) {
+    const PARALLAX_FACTOR = 0.15;
+    const PARALLAX_MAX_OFFSET = 40;
+    let parallaxTicking = false;
+
+    const updateParallax = () => {
+      const rect = aboutSection.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const sectionCenter = rect.top + rect.height / 2;
+      const offset = Math.max(
+        -PARALLAX_MAX_OFFSET,
+        Math.min(PARALLAX_MAX_OFFSET, (viewportCenter - sectionCenter) * PARALLAX_FACTOR)
+      );
+      aboutBackdrop.style.transform = `translate3d(0, ${offset}px, 0)`;
+      parallaxTicking = false;
+    };
+
+    const onAboutScroll = () => {
+      if (!parallaxTicking) {
+        parallaxTicking = true;
+        requestAnimationFrame(updateParallax);
+      }
+    };
+
+    const aboutObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          window.addEventListener('scroll', onAboutScroll, { passive: true });
+          updateParallax();
+        } else {
+          window.removeEventListener('scroll', onAboutScroll);
+        }
+      });
+    }, { threshold: 0 });
+
+    aboutObserver.observe(aboutSection);
+  }
 });
