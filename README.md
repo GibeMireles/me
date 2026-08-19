@@ -207,6 +207,45 @@ Respeta `prefers-reduced-motion` (no se activa si está encendido).
   meta (institución · año) debajo. Logos en `assets/*_logo.{png,webp}`;
   si una institución se repite (p. ej. HubSpot, Vanderbilt), reusa el
   mismo archivo en cada chip correspondiente.
+- **Marquee de logos con hover** (`.stack-marquee` en Stack tecnológico):
+  reemplazó las 4 tarjetas de categorías con badges de texto — con ~20
+  herramientas, agruparlas en categorías con badges se veía saturado.
+  Es una tira de logos (`.stack-marquee__track`, la secuencia completa
+  duplicada una vez para loop infinito sin salto) en escala de grises y
+  45% opacidad (`filter: grayscale(1) opacity(.45)`), moviéndose sola
+  vía `@keyframes` — sin JS. Al pasar el cursor sobre un logo se
+  ilumina a color completo; al pasar el cursor sobre el carrusel en
+  general, el movimiento se pausa (`animation-play-state: paused`).
+  Respeta `prefers-reduced-motion` (sin animación). El listado real de
+  herramientas para lectores de pantalla vive aparte en un `<ul
+  class="sr-only">` (el marquee lleva `aria-hidden="true"`, es
+  puramente decorativo/redundante).
+  - Logos en `assets/logos-herramientas/`, cuadro fijo de
+    `.stack-marquee__logo` (100×36px, `object-fit: contain`) — **el
+    ancho y el alto deben ser fijos los dos**, no solo la altura: con
+    solo altura fija, un wordmark ancho (ej. "Claude") ocupa hasta 4x
+    el área de un ícono cuadrado (ej. Python) y se ve "gigante" al
+    lado de los demás.
+  - **Antes de usar un logo nuevo, recórtalo a su contenido real.**
+    Varios PNG traen mucho margen en blanco/transparente de fábrica
+    (canvas cuadrado con el logo real ocupando solo el 15-20% del
+    alto) — dentro de un cuadro fijo eso lo hace verse diminuto aunque
+    el archivo en sí "se vea bien" al abrirlo. Recorta al bounding box
+    del contenido no-transparente (o no-blanco si el fondo es opaco),
+    dejando ~5% de padding. Si es un wordmark de una sola línea sin
+    ícono (ej. ActiveCampaign), su proporción recortada puede quedar
+    demasiado ancha/delgada (10:1 o más) y verse chica igual — en ese
+    caso agrégale relleno vertical extra hasta una proporción más
+    normal (~3.5-4:1, como Zapier).
+  - **Si el logo es SVG, verifica que `width`/`height` coincidan en
+    proporción con el `viewBox`.** Un mismatch (pasó con
+    `googlesheets.svg`: `viewBox` 129×22 pero `width="2500"
+    height="1486"`) hace que el navegador rellene con espacio
+    invisible para cuadrar las proporciones, y el logo real termina
+    siendo una fracción minúscula del recuadro — mismo síntoma que el
+    margen en blanco de los PNG, pero la causa está en el propio SVG.
+    Solución: quita `width`/`height` del `<svg>` y deja que el
+    `viewBox` defina la proporción.
 
 ## Cómo agregar un proyecto nuevo a "Proyectos"
 

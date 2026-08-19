@@ -22,6 +22,18 @@
   box-sizing: border-box;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -115,17 +127,6 @@ img {
   background-color: var(--accent);
   color: #FFFFFF;
   transform: translateY(-2px);
-}
-
-.badge {
-  display: inline-block;
-  background-color: var(--bg-alt);
-  border: 1px solid var(--card-border);
-  color: var(--text);
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 50px;
 }
 
 .site-header {
@@ -702,47 +703,51 @@ img {
   }
 }
 
-.stack-categories {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 28px;
+.stack-marquee {
+  overflow: hidden;
+  margin-top: 8px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
-.stack-category {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 28px;
-  box-shadow: var(--shadow);
-}
-
-.stack-category__icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background-color: rgba(20, 184, 166, 0.12);
-  color: var(--accent-dark);
+.stack-marquee__track {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
+  gap: 56px;
+  width: max-content;
+  animation: stack-marquee-scroll 42s linear infinite;
 }
 
-.stack-category__icon svg {
-  width: 26px;
-  height: 26px;
+.stack-marquee:hover .stack-marquee__track {
+  animation-play-state: paused;
 }
 
-.stack-category h3 {
-  font-size: 1.05rem;
-  color: var(--accent-dark);
-  margin-bottom: 16px;
+.stack-marquee__logo {
+  width: 100px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: grayscale(100%) opacity(0.45);
+  transition: filter 0.25s ease;
 }
 
-.stack-category__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.stack-marquee__logo:hover {
+  filter: grayscale(0%) opacity(1);
+}
+
+@keyframes stack-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-marquee__track {
+    animation: none;
+  }
 }
 
 .education {
