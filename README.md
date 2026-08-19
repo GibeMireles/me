@@ -265,10 +265,10 @@ tecnológico (Python, Kommo CRM, etc.).
 
 ## Despliegue
 
-El repo no tiene GitHub Pages configurado todavía. Para publicarlo así, en
-GitHub: **Settings → Pages → Deploy from branch → `main` / `/ (root)`**.
-Al ser un sitio 100% estático sin build step, no requiere ningún workflow
-adicional.
+GitHub Pages está activo, sirviendo desde `main` / `/ (root)`:
+**https://gibemireles.github.io/me/**. Al ser un sitio 100% estático sin
+build step, cada push a `main` se refleja ahí directo, sin ningún
+workflow adicional.
 
 ## Historial de diseño
 
