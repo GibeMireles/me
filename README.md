@@ -366,9 +366,11 @@ tecnológico (Python, Kommo CRM, etc.).
 
 ## Foto de perfil (Sobre mí)
 
-`assets/gilberto_mireles_ok.png` — versión actualizada, más nítida que
-la original (`gilbertomireles_2.png`, ya sin usar pero se deja en el
-repo), con fondo transparente real. Igual que la foto anterior, se
+`assets/gilberto_mireles_ok_v2.png` — versión actualizada, más nítida
+que la original (`gilbertomireles_2.png`, ya sin usar pero se deja en
+el repo; `gilberto_mireles_ok.png` fue una iteración intermedia,
+también sin usar), con fondo transparente real. Igual que la foto
+anterior, se
 apoya en que `.about__photo img` no tiene `background-color` propio —
 el recorte transparente deja ver directo la mancha con parallax detrás
 (`.about__photo-backdrop`), por eso **cualquier foto nueva para esta
