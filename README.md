@@ -334,7 +334,16 @@ monograma alternativo (círculo "G" + zigzag "M"): `gm-logo.svg` (navy/
 teal, fondo claro), `gm-logo-light.svg` (blanco/teal, para fondos
 oscuros como el hero) y `gm-favicon.svg` (versión cuadrada 64×64 con
 fondo blanco redondeado, pensada para favicon). Quedan disponibles por
-si se quiere retomar esa dirección o usar el favicon más adelante.
+si se quiere retomar esa dirección más adelante.
+
+**Favicon:** `assets/logo/favicon.png` — el mismo `logo_ok.png` centrado
+sobre un lienzo cuadrado transparente (con ~12% de relleno) y exportado
+a 512×512, referenciado en el `<head>` vía `rel="icon"` +
+`rel="apple-touch-icon"`. Se generó así (en vez de partir del
+`gm-favicon.svg` alterno) para mantener consistencia con el logo real
+del header. Probado a escala 32px y 16px antes de usarlo — a 16px se ve
+algo suave pero la "G" y el acento teal siguen siendo legibles, normal
+para un favicon a ese tamaño.
 
 ## Sistema de traducción (ES/EN)
 
