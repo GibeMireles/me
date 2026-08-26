@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GM logo</title>
+  <desc id="desc">Minimal GM monogram in navy and teal</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- G -->
+    <path d="M316 126a156 156 0 1 0 0 260" stroke="#0E1A2B" stroke-width="46"/>
+    <path d="M196 256h118" stroke="#0E1A2B" stroke-width="46"/>
+    <path d="M314 256c0 72-42 130-118 130" stroke="#0E1A2B" stroke-width="46"/>
+    <!-- M -->
+    <path d="M316 308l56-62 52 58 54-78" stroke="#18C1B1" stroke-width="42"/>
+  </g>
+</svg>

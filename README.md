@@ -318,6 +318,24 @@ infinito, así que cada tarjeta va **una sola vez**). Al agregar uno:
    `.pcard__desc` (ver "Sistema de traducción" abajo) para que el toggle
    ES/EN funcione en la tarjeta nueva.
 
+## Logo del header
+
+`.brand` (header) es una foto de perfil visual compuesta por
+`.brand__logo` (imagen) + `.brand__text` (nombre + tagline apilados) en
+fila. El logo activo es `assets/logo/logo_ok.png` — un monograma "G"
+(navy) con una flecha/check ascendente (teal), fondo hecho transparente
+y recortado a su contenido real (igual que los logos de
+`logos-herramientas/`, ver esa sección para el proceso). Se muestra a
+36px de alto con `object-fit: contain` (`width: auto`) porque no es
+cuadrado.
+
+`assets/logo/` también tiene tres SVG sin usar por ahora, de un
+monograma alternativo (círculo "G" + zigzag "M"): `gm-logo.svg` (navy/
+teal, fondo claro), `gm-logo-light.svg` (blanco/teal, para fondos
+oscuros como el hero) y `gm-favicon.svg` (versión cuadrada 64×64 con
+fondo blanco redondeado, pensada para favicon). Quedan disponibles por
+si se quiere retomar esa dirección o usar el favicon más adelante.
+
 ## Sistema de traducción (ES/EN)
 
 Botón `#lang-toggle` en el header. Un solo `index.html` — nada de páginas
