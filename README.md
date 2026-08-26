@@ -364,6 +364,18 @@ cargar la página (`applyLanguage(storedLang)` al final de `script.js`).
 certificaciones, nombres de clientes, y las herramientas del stack
 tecnológico (Python, Kommo CRM, etc.).
 
+## Foto de perfil (Sobre mí)
+
+`assets/gilberto_mireles_ok.png` — versión actualizada, más nítida que
+la original (`gilbertomireles_2.png`, ya sin usar pero se deja en el
+repo), con fondo transparente real. Igual que la foto anterior, se
+apoya en que `.about__photo img` no tiene `background-color` propio —
+el recorte transparente deja ver directo la mancha con parallax detrás
+(`.about__photo-backdrop`), por eso **cualquier foto nueva para esta
+sección debe traer el fondo ya recortado a transparencia**, no un
+fondo blanco/sólido, o se va a ver como un recuadro claro flotando
+sobre la mancha en vez de integrarse con ella.
+
 ## Notas de comportamiento
 
 - El carrusel de Proyectos **no tiene auto-scroll** (se probó y competía con
