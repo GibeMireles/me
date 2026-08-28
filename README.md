@@ -397,6 +397,22 @@ GitHub Pages está activo, sirviendo desde `main` / `/ (root)`:
 build step, cada push a `main` se refleja ahí directo, sin ningún
 workflow adicional.
 
+## Analytics
+
+Google Analytics 4 vía `gtag.js`, snippet estándar en el `<head>` de
+`index.html` (Measurement ID `G-6788P04D11`, propiedad "Gilberto
+Mireles" dedicada a este sitio). **Ojo al sacar el Measurement ID de
+Analytics:** si la cuenta de Google tiene acceso a la "Demo Account"
+pública de Google (Merchandise Store, usada para explorar GA4), es
+fácil copiar el ID equivocado por error — verifica siempre en Admin →
+Flujos de datos → tu flujo que el campo **"Stream URL"** coincida con
+`https://gibemireles.github.io/me/` antes de usar un Measurement ID.
+
+Al ser una sola página (`index.html`), GA4 solo registra "una página
+vista" por visita — no distingue automáticamente qué sección vio cada
+quien a menos que se agreguen eventos de scroll/sección
+manualmente (no implementado todavía).
+
 ## Historial de diseño
 
 La spec original y el plan de implementación (primera versión del sitio,
